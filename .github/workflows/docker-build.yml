@@ -13,6 +13,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # 清理磁盘空间
+      - name: Free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+
       # 登录 Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
