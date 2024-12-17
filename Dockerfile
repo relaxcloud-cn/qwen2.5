@@ -3,9 +3,7 @@ FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
 # 设置环境变量
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
-    POETRY_HOME=/opt/poetry \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    PATH="$POETRY_HOME/bin:$PATH" \
+    PATH="/root/.local/bin:$PATH" \
     HF_ENDPOINT=https://hf-mirror.com \
     HF_MIRROR=https://hf-mirror.com \
     HF_HOME=/app/.cache/huggingface/hub
@@ -19,7 +17,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -sSL https://install.python-poetry.org | python3 - && \
+    poetry config virtualenvs.create false
 
 # 设置工作目录
 WORKDIR /app
