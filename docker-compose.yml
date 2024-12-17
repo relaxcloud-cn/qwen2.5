@@ -11,9 +11,9 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "8002:8002"
     volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface  # 持久化模型缓存
+      - ./models:/app/models  # 挂载本地模型目录
     deploy:
       resources:
         reservations:
@@ -22,7 +22,7 @@ services:
               count: 1
               capabilities: [gpu]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/models"]
+      test: ["CMD", "curl", "-f", "http://localhost:8002/models"]
       interval: 30s
       timeout: 10s
       retries: 3
