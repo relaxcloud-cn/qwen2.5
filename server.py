@@ -1,3 +1,7 @@
+import os
+import signal
+import sys
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
@@ -61,10 +65,23 @@ async def get_models():
     return {"models": settings.MODEL_NAMES}
 
 if __name__ == "__main__":
+    def signal_handler(sig, frame):
+        print("\nShutting down gracefully...")
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
     import uvicorn
-    uvicorn.run(
+    config = uvicorn.Config(
         "server:app",
         host=settings.HOST,
         port=settings.PORT,
-        reload=True
+        reload=True,
+        reload_delay=0.25,
+        log_level="info",
+        access_log=True,
+        workers=1
     )
+    server = uvicorn.Server(config)
+    server.run()

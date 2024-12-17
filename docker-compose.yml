@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  qwen-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: qwen-server:latest
+    container_name: qwen-server
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface  # 持久化模型缓存
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/models"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - qwen-network
+
+networks:
+  qwen-network:
+    driver: bridge

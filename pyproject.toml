@@ -3,6 +3,7 @@ name = "qwen2.5-vllm-server"
 version = "0.1.0"
 description = "使用vLLM部署Qwen2.5模型的Web服务"
 authors = ["Your Name <your.email@example.com>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
