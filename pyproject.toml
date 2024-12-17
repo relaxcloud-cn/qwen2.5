@@ -5,12 +5,13 @@ description = "使用vLLM部署Qwen2.5模型的Web服务"
 authors = ["Your Name <your.email@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
+python = ">=3.9,<3.12"
 fastapi = "^0.109.0"
 uvicorn = "^0.27.0"
 pydantic = "^2.5.0"
 pydantic-settings = "^2.1.0"
 python-dotenv = "^1.0.0"
+vllm = "^0.6.4.post1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
