@@ -96,15 +96,12 @@ def main():
 
     # 启动服务器
     import uvicorn
-    config = uvicorn.Config(
-        "server:app",
+    uvicorn.run(
+        app,
         host=settings.HOST,
         port=settings.PORT,
-        reload=True,
         workers=1
     )
-    server = uvicorn.Server(config)
-    server.run()
 
 if __name__ == "__main__":
     # 设置多进程启动方法
